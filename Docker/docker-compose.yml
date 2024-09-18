@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_DB: consultas_medicas
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: goldenBoy
+    ports:
+      - "5432:5432"
+
+  app:
+    image: openjdk:17-jdk-alpine  # Usando diretamente a imagem do OpenJDK
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./target/consultas-medicas-0.0.1-SNAPSHOT.jar:/app/app.jar  # Montar o JAR gerado no contêiner
+    command: ["java", "-jar", "/app/app.jar"]  # Comando para rodar a aplicação
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/consultas_medicas
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=goldenBoy
