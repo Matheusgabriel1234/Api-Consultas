@@ -1,5 +1,6 @@
 package matheus.desafios.API_Consultas.entities;
 
+import java.util.List;
 import java.util.Objects;
 
 import org.hibernate.annotations.ManyToAny;
@@ -12,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -30,7 +32,14 @@ private String telefone;
 @JoinColumn(name = "especialidade_id")
 private Especialidade especialidade;
 
-public Doctor(Long id, String name, String crm, String email, String telefone, Especialidade especialidade) {
+@JsonIgnore
+@OneToMany(mappedBy = "doctor")
+private List<Consulta> consultas;
+
+
+
+public Doctor(Long id, String name, String crm, String email, String telefone, Especialidade especialidade,
+		List<Consulta> consultas) {
 	super();
 	this.id = id;
 	this.name = name;
@@ -38,6 +47,7 @@ public Doctor(Long id, String name, String crm, String email, String telefone, E
 	this.email = email;
 	this.telefone = telefone;
 	this.especialidade = especialidade;
+	this.consultas = consultas;
 }
 public Doctor() {
 	super();
@@ -75,6 +85,12 @@ public void setTelefone(String telefone) {
 
 
 
+public List<Consulta> getConsultas() {
+	return consultas;
+}
+public void setConsultas(List<Consulta> consultas) {
+	this.consultas = consultas;
+}
 public Especialidade getEspecialidade() {
 	return especialidade;
 }

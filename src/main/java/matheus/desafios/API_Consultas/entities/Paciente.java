@@ -1,17 +1,17 @@
 package matheus.desafios.API_Consultas.entities;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 
 
@@ -29,7 +29,17 @@ private String email;
 private String telephone;
 private LocalDate birthDate;
 private String adress;
-public Paciente(Long id, String name, String email, String telephone, LocalDate birthDate, String adress) {
+private String document;
+@JsonIgnore
+@OneToMany(mappedBy = "paciente")
+private List<Consulta> consultas;
+
+
+
+
+
+public Paciente(Long id, String name, String email, String telephone, LocalDate birthDate, String adress,
+		String document, List<Consulta> consultas) {
 	super();
 	this.id = id;
 	this.name = name;
@@ -37,6 +47,8 @@ public Paciente(Long id, String name, String email, String telephone, LocalDate 
 	this.telephone = telephone;
 	this.birthDate = birthDate;
 	this.adress = adress;
+	this.document = document;
+	this.consultas = consultas;
 }
 public Paciente() {
 	super();
@@ -76,6 +88,23 @@ public String getAdress() {
 }
 public void setAdress(String adress) {
 	this.adress = adress;
+}
+
+
+
+
+
+public String getDocument() {
+	return document;
+}
+public void setDocument(String document) {
+	this.document = document;
+}
+public List<Consulta> getConsultas() {
+	return consultas;
+}
+public void setConsultas(List<Consulta> consultas) {
+	this.consultas = consultas;
 }
 @Override
 public int hashCode() {

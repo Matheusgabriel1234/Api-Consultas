@@ -8,17 +8,22 @@ services:
       POSTGRES_PASSWORD: goldenBoy
     ports:
       - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
 
   app:
-    image: openjdk:17-jdk-alpine  # Usando diretamente a imagem do OpenJDK
+    image: openjdk:17-jdk-alpine
     depends_on:
       - postgres
     ports:
-      - "8080:8080"
+      - "8081:8080"
     volumes:
-      - ./target/consultas-medicas-0.0.1-SNAPSHOT.jar:/app/app.jar  # Montar o JAR gerado no contêiner
-    command: ["java", "-jar", "/app/app.jar"]  # Comando para rodar a aplicação
+      - ./target/consultas-medicas-0.0.1-SNAPSHOT.jar:/app/app.jar  # Corrigir o mapeamento
+    command: ["java", "-jar"]
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/consultas_medicas
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=goldenBoy
+
+volumes:
+  postgres-data:
