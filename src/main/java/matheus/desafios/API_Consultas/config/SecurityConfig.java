@@ -17,10 +17,10 @@ public class SecurityConfig {
 	   @Bean
 	    public SecurityFilterChain securityFilterChain(HttpSecurity https) throws Exception {
 	        https
-	            .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())  // Protege todas as rotas
-	            .httpBasic()  // Usa autenticação básica em vez de formLogin
+	            .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())  
+	            .httpBasic() 
 	            .and()
-	            .csrf().disable();  // Opcional, dependendo de como você está usando a API (geralmente desativado em APIs)
+	            .csrf().disable();
 	        return https.build();
 	    }
 	

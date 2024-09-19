@@ -1,44 +1,45 @@
 package matheus.desafios.API_Consultas.entities;
 
-import java.time.LocalDate;
 import java.util.Objects;
+
+import org.hibernate.annotations.ManyToAny;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-
-
-@Table(name = "tb_pacientes")
 @Entity
-public class Paciente {
-
-	
+@Table(name = "tb_doctors")
+public class Doctor {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private Long id;
-
 private String name;
+private String crm;
 private String email;
-private String telephone;
-private LocalDate birthDate;
-private String adress;
-public Paciente(Long id, String name, String email, String telephone, LocalDate birthDate, String adress) {
+private String telefone;
+
+
+@ManyToOne
+@JoinColumn(name = "especialidade_id")
+private Especialidade especialidade;
+
+public Doctor(Long id, String name, String crm, String email, String telefone, Especialidade especialidade) {
 	super();
 	this.id = id;
 	this.name = name;
+	this.crm = crm;
 	this.email = email;
-	this.telephone = telephone;
-	this.birthDate = birthDate;
-	this.adress = adress;
+	this.telefone = telefone;
+	this.especialidade = especialidade;
 }
-public Paciente() {
+public Doctor() {
 	super();
 }
 public Long getId() {
@@ -53,29 +54,32 @@ public String getName() {
 public void setName(String name) {
 	this.name = name;
 }
+public String getCrm() {
+	return crm;
+}
+public void setCrm(String crm) {
+	this.crm = crm;
+}
 public String getEmail() {
 	return email;
 }
 public void setEmail(String email) {
 	this.email = email;
 }
-public String getTelephone() {
-	return telephone;
+public String getTelefone() {
+	return telefone;
 }
-public void setTelephone(String telephone) {
-	this.telephone = telephone;
+public void setTelefone(String telefone) {
+	this.telefone = telefone;
 }
-public LocalDate getBirthDate() {
-	return birthDate;
+
+
+
+public Especialidade getEspecialidade() {
+	return especialidade;
 }
-public void setBirthDate(LocalDate birthDate) {
-	this.birthDate = birthDate;
-}
-public String getAdress() {
-	return adress;
-}
-public void setAdress(String adress) {
-	this.adress = adress;
+public void setEspecialidade(Especialidade especialidade) {
+	this.especialidade = especialidade;
 }
 @Override
 public int hashCode() {
@@ -89,13 +93,9 @@ public boolean equals(Object obj) {
 		return false;
 	if (getClass() != obj.getClass())
 		return false;
-	Paciente other = (Paciente) obj;
+	Doctor other = (Doctor) obj;
 	return Objects.equals(id, other.id);
 }
-
-
-
-
 
 
 }
