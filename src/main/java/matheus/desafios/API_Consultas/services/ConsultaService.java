@@ -52,10 +52,12 @@ Paciente paciente = pacientRepo.findById(consultaDto.getPacientId()).orElseThrow
 
 Doctor doctor = doctorRepo.findById(consultaDto.getDoctorId()).orElseThrow(()-> new RuntimeException("Doutor não encontrado"));
 
+
 Consulta consulta = new Consulta();
 consulta.setPaciente(paciente);
 consulta.setDoctor(doctor);
 consulta.setDataConsulta(consultaDto.getTime());
+
 ;
 
 return repo.save(consulta);	

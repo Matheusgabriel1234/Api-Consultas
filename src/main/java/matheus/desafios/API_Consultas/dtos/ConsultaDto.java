@@ -4,11 +4,13 @@ import java.time.LocalDateTime;
 
 
 
+
 public class ConsultaDto {
 
 private Long pacientId;
 private LocalDateTime time;
 private Long doctorId;
+
 
 
 public ConsultaDto(Long pacientId, Long doctorId, LocalDateTime time) {
@@ -18,6 +20,7 @@ public ConsultaDto(Long pacientId, Long doctorId, LocalDateTime time) {
     this.pacientId = pacientId;
     this.doctorId = doctorId;
     this.time = time;
+  
 }
 
 public Long getPacientId() {
@@ -38,6 +41,8 @@ public Long getDoctorId() {
 public void setDoctorId(Long doctorId) {
 	this.doctorId = doctorId;
 }
+
+
 
 
 

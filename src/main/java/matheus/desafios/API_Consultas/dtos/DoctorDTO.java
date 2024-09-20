@@ -8,7 +8,7 @@ public class DoctorDTO {
 private String name;
 private String crm;
 private String email;
-private String telefone;
+private String telephone;
 private Long especialidadeId;
 private List<Consulta> consulta;
 public String getName() {
@@ -29,11 +29,11 @@ public String getEmail() {
 public void setEmail(String email) {
 	this.email = email;
 }
-public String getTelefone() {
-	return telefone;
+public String getTelephone() {
+	return telephone;
 }
-public void setTelefone(String telefone) {
-	this.telefone = telefone;
+public void setTelephone(String telephone) {
+	this.telephone = telephone;
 }
 public Long getEspecialidadeId() {
 	return especialidadeId;

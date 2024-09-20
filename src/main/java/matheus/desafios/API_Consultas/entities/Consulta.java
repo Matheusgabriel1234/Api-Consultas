@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,6 +35,11 @@ private Paciente paciente;
 private LocalDateTime dataConsulta;
 
 
+@OneToOne(cascade = CascadeType.ALL)
+@JoinColumn(name = "prontuario_id")
+private Prontuario prontuario;
+
+
 
 
 
@@ -42,14 +48,18 @@ public Consulta() {
 	
 }
 
-public Consulta(Long id, Doctor doctor, Paciente paciente, LocalDateTime dataConsulta) {
+
+
+public Consulta(Long id, Doctor doctor, Paciente paciente, LocalDateTime dataConsulta, Prontuario prontuario) {
 	super();
 	this.id = id;
 	this.doctor = doctor;
 	this.paciente = paciente;
 	this.dataConsulta = dataConsulta;
-	
+	this.prontuario = prontuario;
 }
+
+
 
 public Long getId() {
 	return id;
@@ -82,6 +92,22 @@ public LocalDateTime getDataConsulta() {
 public void setDataConsulta(LocalDateTime dataConsulta) {
 	this.dataConsulta = dataConsulta;
 }
+
+
+
+
+
+public Prontuario getProntuario() {
+	return prontuario;
+}
+
+
+
+public void setProntuario(Prontuario prontuario) {
+	this.prontuario = prontuario;
+}
+
+
 
 @Override
 public int hashCode() {

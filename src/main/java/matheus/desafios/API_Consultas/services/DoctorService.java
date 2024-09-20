@@ -10,8 +10,6 @@ import matheus.desafios.API_Consultas.entities.Doctor;
 import matheus.desafios.API_Consultas.entities.Especialidade;
 import matheus.desafios.API_Consultas.repository.DoctorRepository;
 import matheus.desafios.API_Consultas.repository.EspecialidadeRepository;
-import matheus.desafios.API_Consultas.repository.PacientRepository;
-
 
 @Service
 public class DoctorService {
@@ -49,7 +47,7 @@ Especialidade especialidade = especialityRepo.findById(doctorDto.getEspecialidad
 Doctor doctor = new Doctor();
 doctor.setName(doctorDto.getName());
 doctor.setCrm(doctorDto.getCrm());
-doctor.setTelefone(doctorDto.getTelefone());
+doctor.setTelefone(doctorDto.getTelephone());
 doctor.setEmail(doctorDto.getEmail());
 doctor.setEspecialidade(especialidade);
 
