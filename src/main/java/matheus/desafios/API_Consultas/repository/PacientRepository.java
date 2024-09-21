@@ -6,4 +6,8 @@ import matheus.desafios.API_Consultas.entities.Paciente;
 
 public interface PacientRepository extends JpaRepository<Paciente, Long> {
 
+public Boolean existsByDocument(String document);
+
+public Boolean existsByEmail(String email);
+
 }

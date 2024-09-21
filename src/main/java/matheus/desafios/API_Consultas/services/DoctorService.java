@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import matheus.desafios.API_Consultas.dtos.DoctorDTO;
 import matheus.desafios.API_Consultas.entities.Doctor;
 import matheus.desafios.API_Consultas.entities.Especialidade;
+import matheus.desafios.API_Consultas.exceptions.CrmAlreadyRegistred;
+import matheus.desafios.API_Consultas.exceptions.EmailAlreadyExistsException;
+import matheus.desafios.API_Consultas.exceptions.IdNotFoundException;
 import matheus.desafios.API_Consultas.repository.DoctorRepository;
 import matheus.desafios.API_Consultas.repository.EspecialidadeRepository;
 
@@ -35,14 +38,22 @@ return repo.findAll();
 }
 
 public Doctor getById(Long id){
-Doctor obj = repo.findById(id).orElseThrow(()-> new RuntimeException("Doutor(a) não encontrado(a)"));
+Doctor obj = repo.findById(id).orElseThrow(()-> new IdNotFoundException("O id: " + id + " não existe "));
 return obj;
 }
 
 
 
 public Doctor create(DoctorDTO doctorDto) {
-Especialidade especialidade = especialityRepo.findById(doctorDto.getEspecialidadeId()).orElseThrow(()-> new RuntimeException("Especialidade não encontrada"));
+Especialidade especialidade = especialityRepo.findById(doctorDto.getEspecialidadeId()).orElseThrow(()-> new IdNotFoundException("A especialidade com o id: " + doctorDto.getEspecialidadeId() + "não existe"));
+
+if(repo.existsByEmail(doctorDto.getEmail())) {
+	throw new EmailAlreadyExistsException("O email: " + doctorDto.getEmail() + " ja foi registrado");
+}
+
+if(repo.existsByCrm(doctorDto.getCrm())) {
+	throw new CrmAlreadyRegistred("O crm: " + doctorDto.getCrm() + " ja foi registrado" );
+}
 
 Doctor doctor = new Doctor();
 doctor.setName(doctorDto.getName());
@@ -55,7 +66,7 @@ return repo.save(doctor);
 }
 
 public Doctor update(Long id,Doctor doctor) {
-Doctor existingDoctor = repo.findById(id).orElseThrow(()-> new RuntimeException("Ocorreu um erro"));
+Doctor existingDoctor = repo.findById(id).orElseThrow(()-> new IdNotFoundException("o id: " + id + "não esta registrado no banco de dados"));
 
 if(existingDoctor != null) {
 existingDoctor.setName(doctor.getName());

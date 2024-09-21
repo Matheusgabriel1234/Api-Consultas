@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import matheus.desafios.API_Consultas.entities.Especialidade;
+import matheus.desafios.API_Consultas.exceptions.IdNotFoundException;
 import matheus.desafios.API_Consultas.repository.EspecialidadeRepository;
 
 
@@ -23,7 +24,7 @@ return repo.findAll();
 }
 
 public Especialidade getById(Long id){
-Especialidade obj = repo.findById(id).orElseThrow(()-> new RuntimeException("Ocorreu um erro"));
+Especialidade obj = repo.findById(id).orElseThrow(()-> new IdNotFoundException("A especialidade com o id: " + id + " não existe"));
 return obj;
 }
 
@@ -34,7 +35,7 @@ return repo.save(especialidade);
 }
 
 public Especialidade update(Long id,Especialidade especialidade) {
-Especialidade existingEspecialidade = repo.findById(id).orElseThrow(()-> new RuntimeException("Ocorreu um erro"));
+Especialidade existingEspecialidade = repo.findById(id).orElseThrow(()-> new IdNotFoundException("A especialidade com o id: " + id + " não existe"));
 
 if(existingEspecialidade != null) {
 existingEspecialidade.setNome(especialidade.getNome());

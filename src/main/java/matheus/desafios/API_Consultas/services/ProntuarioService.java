@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import matheus.desafios.API_Consultas.dtos.ProntuarioDTO;
 import matheus.desafios.API_Consultas.entities.Prontuario;
+import matheus.desafios.API_Consultas.exceptions.IdNotFoundException;
 import matheus.desafios.API_Consultas.entities.Consulta;
 import matheus.desafios.API_Consultas.repository.ProntuarioRepository;
 import matheus.desafios.API_Consultas.repository.ConsultaRepository;
@@ -35,14 +36,14 @@ return repo.findAll();
 }
 
 public Prontuario getById(Long id){
-Prontuario obj = repo.findById(id).orElseThrow(()-> new RuntimeException("Doutor(a) não encontrado(a)"));
+Prontuario obj = repo.findById(id).orElseThrow(()-> new IdNotFoundException("O prontuario com id: " + id + " não existe"));
 return obj;
 }
 
 
 
 public Prontuario create(ProntuarioDTO prontuarioDto) {
-Consulta consulta = consultaRepo.findById(prontuarioDto.getConsultaId()).orElseThrow(()-> new RuntimeException("Consulta não encontrada"));
+Consulta consulta = consultaRepo.findById(prontuarioDto.getConsultaId()).orElseThrow(()-> new IdNotFoundException("A consulta com o id: " + prontuarioDto.getConsultaId() + " não existe"));
 
 Prontuario prontuario = new Prontuario();
 prontuario.setDescricao(prontuarioDto.getDescricao());
@@ -53,7 +54,7 @@ return repo.save(prontuario);
 }
 
 public Prontuario update(Long id,Prontuario prontuario) {
-Prontuario existingProntuario = repo.findById(id).orElseThrow(()-> new RuntimeException("Ocorreu um erro"));
+Prontuario existingProntuario = repo.findById(id).orElseThrow(()-> new IdNotFoundException("O prontuario com o id:" + prontuario.getId() + " não existe"));
 
 if(existingProntuario != null) {
 existingProntuario.setDescricao(prontuario.getDescricao());

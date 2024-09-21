@@ -9,6 +9,7 @@ import matheus.desafios.API_Consultas.dtos.ConsultaDto;
 import matheus.desafios.API_Consultas.entities.Consulta;
 import matheus.desafios.API_Consultas.entities.Doctor;
 import matheus.desafios.API_Consultas.entities.Paciente;
+import matheus.desafios.API_Consultas.exceptions.IdNotFoundException;
 import matheus.desafios.API_Consultas.repository.ConsultaRepository;
 import matheus.desafios.API_Consultas.repository.DoctorRepository;
 import matheus.desafios.API_Consultas.repository.PacientRepository;
@@ -41,16 +42,16 @@ return repo.findAll();
 }
 
 public Consulta getById(Long id){
-Consulta obj = repo.findById(id).orElseThrow(()-> new RuntimeException("Ocorreu um erro"));
+Consulta obj = repo.findById(id).orElseThrow(() -> new IdNotFoundException("O " + id + " não foi encontrado no nosso banco de dados"));
 return obj;
 }
 
 
 
 public Consulta create(ConsultaDto consultaDto) {
-Paciente paciente = pacientRepo.findById(consultaDto.getPacientId()).orElseThrow(()-> new RuntimeException("Paciente não encontrado"));
+Paciente paciente = pacientRepo.findById(consultaDto.getPacientId()).orElseThrow(()-> new IdNotFoundException("O paciente com o id" + consultaDto.getPacientId() + "não foi encontrado"));
 
-Doctor doctor = doctorRepo.findById(consultaDto.getDoctorId()).orElseThrow(()-> new RuntimeException("Doutor não encontrado"));
+Doctor doctor = doctorRepo.findById(consultaDto.getDoctorId()).orElseThrow(()-> new IdNotFoundException("O doutor com o id " + consultaDto.getDoctorId() + "não foi encontrado"));
 
 
 Consulta consulta = new Consulta();
@@ -64,7 +65,7 @@ return repo.save(consulta);
 }
 
 public Consulta update(Long id,Consulta consulta) {
-Consulta existingConsulta = repo.findById(id).orElseThrow(()-> new RuntimeException("Ocorreu um erro"));
+Consulta existingConsulta = repo.findById(id).orElseThrow(()-> new IdNotFoundException("A consulta com o id:" + id + "não foi registrada ou ja foi excluida"));
 
 if(existingConsulta != null) {
 existingConsulta.setDoctor(consulta.getDoctor());
