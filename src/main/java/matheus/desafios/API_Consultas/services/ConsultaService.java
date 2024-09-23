@@ -1,5 +1,6 @@
 package matheus.desafios.API_Consultas.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,9 @@ import matheus.desafios.API_Consultas.dtos.ConsultaDto;
 import matheus.desafios.API_Consultas.entities.Consulta;
 import matheus.desafios.API_Consultas.entities.Doctor;
 import matheus.desafios.API_Consultas.entities.Paciente;
+import matheus.desafios.API_Consultas.exceptions.DataConflictException;
 import matheus.desafios.API_Consultas.exceptions.IdNotFoundException;
+import matheus.desafios.API_Consultas.exceptions.InvalidDateException;
 import matheus.desafios.API_Consultas.repository.ConsultaRepository;
 import matheus.desafios.API_Consultas.repository.DoctorRepository;
 import matheus.desafios.API_Consultas.repository.PacientRepository;
@@ -57,8 +60,13 @@ Doctor doctor = doctorRepo.findById(consultaDto.getDoctorId()).orElseThrow(()-> 
 Consulta consulta = new Consulta();
 consulta.setPaciente(paciente);
 consulta.setDoctor(doctor);
+if(consultaDto.getTime().isBefore(LocalDateTime.now())) {
+throw new InvalidDateException("A consulta não pode ser marcada para uma data passada");
+}
 consulta.setDataConsulta(consultaDto.getTime());
-
+if(repo.existsByDoctorAndDataConsulta(doctor, consultaDto.getTime())) {
+ throw new DataConflictException("O doutor " + doctor.getName() + " já tem uma consulta marcada nesse horario");	
+}
 ;
 
 return repo.save(consulta);	

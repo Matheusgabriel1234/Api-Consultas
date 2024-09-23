@@ -2,12 +2,15 @@ package matheus.desafios.API_Consultas.dtos;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 
 
 
 public class ConsultaDto {
 
 private Long pacientId;
+@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 private LocalDateTime time;
 private Long doctorId;
 
