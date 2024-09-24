@@ -31,6 +31,9 @@ private DoctorRepository doctorRepo;
 @Autowired
 private PacientRepository pacientRepo;
 
+@Autowired 
+private EmailService emailService;
+
 
 
 public ConsultaService(ConsultaRepository repo, DoctorRepository doctorRepo, PacientRepository pacientRepo) {
@@ -66,8 +69,21 @@ throw new InvalidDateException("A consulta não pode ser marcada para uma data p
 consulta.setDataConsulta(consultaDto.getTime());
 if(repo.existsByDoctorAndDataConsulta(doctor, consultaDto.getTime())) {
  throw new DataConflictException("O doutor " + doctor.getName() + " já tem uma consulta marcada nesse horario");	
+
+
 }
 ;
+
+String doctorEmail = doctor.getEmail();
+String titleEmail = "Nova consulta agendada";
+String mensagemMedico = "Você tem uma nova consulta agendada com o paciente " + paciente.getName() +" no dia " + consultaDto.getTime();
+
+emailService.sendEmail(doctorEmail, titleEmail, mensagemMedico);
+
+String pacientEmail = paciente.getEmail();
+String mensagemPaciente = "Você tem uma nova consulta agendada com o " + doctor.getName() +" no dia " + consultaDto.getTime();
+
+emailService.sendEmail(pacientEmail, titleEmail,mensagemPaciente);
 
 return repo.save(consulta);	
 }
@@ -81,6 +97,8 @@ existingConsulta.setPaciente(consulta.getPaciente());
 existingConsulta.setDataConsulta(consulta.getDataConsulta());
 return repo.save(existingConsulta);
 }
+
+
 
 return null;
 }

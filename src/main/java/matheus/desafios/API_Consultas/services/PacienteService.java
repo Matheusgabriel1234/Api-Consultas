@@ -26,7 +26,7 @@ return repo.findAll();
 }
 
 public Paciente getById(Long id){
-Paciente obj = repo.findById(id).orElseThrow(()-> new IdNotFoundException("O paciente com o id:" + id + "não existe"));
+Paciente obj = repo.findById(id).orElseThrow(()-> new IdNotFoundException("O paciente com o id: " + id + " não existe"));
 return obj;
 }
 
@@ -34,11 +34,11 @@ return obj;
 
 public Paciente create(Paciente paciente) {
 if(repo.existsByDocument(paciente.getDocument())) {
-	throw new DocumenteAlreadyRegistred("O documento: " + paciente.getDocument() + "ja existe" );
+	throw new DocumenteAlreadyRegistred("O documento: " + paciente.getDocument() + " ja existe" );
 }
 
 if(repo.existsByEmail(paciente.getEmail())) {
-	throw new EmailAlreadyExistsException("O email" + paciente.getEmail() + "ja existe");
+	throw new EmailAlreadyExistsException("O email: " + paciente.getEmail() + " ja existe");
 }
 return repo.save(paciente);	
 }
@@ -53,7 +53,7 @@ existingPaciente.setTelephone(paciente.getTelephone());
 
 
 if(repo.existsByEmail(paciente.getEmail())) {
-	throw new EmailAlreadyExistsException("O email" + paciente.getEmail() + "ja existe");
+	throw new EmailAlreadyExistsException("O email: " + paciente.getEmail() + " ja existe");
 }
 
 return existingPaciente;

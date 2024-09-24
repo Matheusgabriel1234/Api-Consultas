@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tb_especiality")
@@ -19,7 +20,9 @@ public class Especialidade {
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private Long id;
 
+@NotNull(message = "A especialidade deve ter um nome")
 private String nome;
+
 
 @JsonIgnore
 @OneToMany(mappedBy = "especialidade")

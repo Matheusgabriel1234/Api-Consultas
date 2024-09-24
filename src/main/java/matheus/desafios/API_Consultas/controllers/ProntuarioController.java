@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import jakarta.validation.Valid;
 import matheus.desafios.API_Consultas.dtos.ProntuarioDTO;
 import matheus.desafios.API_Consultas.entities.Prontuario;
 import matheus.desafios.API_Consultas.services.ProntuarioService;
@@ -42,13 +42,13 @@ return new ResponseEntity<>(obj,HttpStatus.OK);
 }
 
 @PostMapping
-public ResponseEntity<Prontuario> create(@RequestBody ProntuarioDTO prontuario){
+public ResponseEntity<Prontuario> create( @Valid @RequestBody ProntuarioDTO prontuario){
 Prontuario obj = service.create(prontuario);
 return new ResponseEntity<>(obj,HttpStatus.CREATED);
 }
 
 @PutMapping("/{id}")
-public ResponseEntity<matheus.desafios.API_Consultas.entities.Prontuario> update(@PathVariable Long id,@RequestBody Prontuario prontuario){
+public ResponseEntity<Prontuario> update(@PathVariable Long id, @Valid @RequestBody Prontuario prontuario){
 Prontuario obj = service.update(id, prontuario);
 return new ResponseEntity<>(obj,HttpStatus.ACCEPTED);
 }

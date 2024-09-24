@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import matheus.desafios.API_Consultas.entities.Paciente;
 import matheus.desafios.API_Consultas.services.PacienteService;
 
@@ -40,13 +41,13 @@ return new ResponseEntity<>(obj,HttpStatus.OK);
 }
 
 @PostMapping
-public ResponseEntity<Paciente> create(@RequestBody Paciente paciente){
+public ResponseEntity<Paciente> create(@Valid @RequestBody Paciente paciente){
 Paciente obj = service.create(paciente);
 return new ResponseEntity<>(obj,HttpStatus.CREATED);
 }
 
 @PutMapping("/{id}")
-public ResponseEntity<Paciente> update(@PathVariable Long id,@RequestBody Paciente paciente){
+public ResponseEntity<Paciente> update(@Valid @PathVariable Long id,@RequestBody Paciente paciente){
 Paciente obj = service.update(id, paciente);
 return new ResponseEntity<>(obj,HttpStatus.ACCEPTED);
 }

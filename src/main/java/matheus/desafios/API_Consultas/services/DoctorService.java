@@ -66,7 +66,7 @@ return repo.save(doctor);
 }
 
 public Doctor update(Long id,Doctor doctor) {
-Doctor existingDoctor = repo.findById(id).orElseThrow(()-> new IdNotFoundException("o id: " + id + "não esta registrado no banco de dados"));
+Doctor existingDoctor = repo.findById(id).orElseThrow(()-> new IdNotFoundException("o id: " + id + " não esta registrado no banco de dados"));
 
 if(existingDoctor != null) {
 existingDoctor.setName(doctor.getName());

@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -23,6 +25,7 @@ public class Consulta {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private Long id;
+
 
 @ManyToOne
 @JoinColumn(name = "doctor_id")

@@ -1,9 +1,14 @@
 package matheus.desafios.API_Consultas.ExceptionHandler;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 
 import matheus.desafios.API_Consultas.exceptions.CrmAlreadyRegistred;
@@ -52,5 +57,15 @@ public ResponseEntity<?> handleDataConflictException(DataConflictException e,Web
 ErrorDetails details = new ErrorDetails(HttpStatus.BAD_REQUEST.value(),e.getMessage(),req.getDescription(false));
 return new ResponseEntity<>(details,HttpStatus.BAD_REQUEST);
 }
+
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+@ExceptionHandler(MethodArgumentNotValidException.class)
+public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException err){
+Map<String,String> errors = new HashMap<>();
+err.getBindingResult().getFieldErrors().forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
+return ResponseEntity.badRequest().body(errors);
+	
+}
+
 
 }

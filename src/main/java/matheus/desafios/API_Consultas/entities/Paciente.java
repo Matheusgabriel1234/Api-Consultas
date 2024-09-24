@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 
 
@@ -24,11 +25,17 @@ public class Paciente {
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private Long id;
 
+@NotNull(message = "O nome do paciente deve ser especificado")
 private String name;
+@NotNull(message = "O email do paciente não deve ser nulo")
 private String email;
+@NotNull(message = "o telefone do paciente não deve ser nulo")
 private String telephone;
+@NotNull(message = "A data de nascimento do paciente deve ser especificada")
 private LocalDate birthDate;
+@NotNull(message = "O paciente deverá passar seu endereço")
 private String adress;
+@NotNull(message = "O documento do Paciente deve ser passado")
 private String document;
 @JsonIgnore
 @OneToMany(mappedBy = "paciente")
